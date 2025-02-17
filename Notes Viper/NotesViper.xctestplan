@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+    {
+      "id" : "5240A2F5-5178-450F-9B2E-A29391492DFA",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:NotesMVC.xcodeproj",
+      "identifier" : "68925C042D3E7FE200877B55",
+      "name" : "NotesMVC"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:NotesViper.xcodeproj",
+        "identifier" : "686D2D012D425D1F00E8DB65",
+        "name" : "NotesViperTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "949DDFE8-0DE0-4B56-8A8A-F3B27CD7B6D4",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:NotesMVVM.xcodeproj",
+      "identifier" : "682094AF2D4C4A800055E07A",
+      "name" : "NotesMVVM"
+    },
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:NotesMVVM-C.xcodeproj",
+        "identifier" : "682094C02D4C4A810055E07A",
+        "name" : "NotesMVVM-CTests"
+      }
+    }
+  ],
+  "version" : 1
+}

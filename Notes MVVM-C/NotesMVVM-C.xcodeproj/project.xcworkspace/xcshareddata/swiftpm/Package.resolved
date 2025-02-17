@@ -1,0 +1,24 @@
+{
+  "originHash" : "f2efc6d1636cd7d47a2a64427182c6a22421284281819a4f4c52112a79bbce2b",
+  "pins" : [
+    {
+      "identity" : "notesstorage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wolfej94/NotesStorage",
+      "state" : {
+        "branch" : "main",
+        "revision" : "033eb6f38589e1cac07f4bf1188a4ed997fab22b"
+      }
+    },
+    {
+      "identity" : "notesui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wolfej94/NotesUI",
+      "state" : {
+        "branch" : "main",
+        "revision" : "420cf544e5d0a9ae24089330f159c7d0ae546efb"
+      }
+    }
+  ],
+  "version" : 3
+}

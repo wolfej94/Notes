@@ -1,6 +1,6 @@
 # Notes
 
-Notes is a collection of iOS note-taking applications demonstrating different architectural patterns. The repository includes implementations using both Model-View-Controller (MVC) and Model-View-ViewModel (MVVM) to illustrate best practices and trade-offs in iOS development.
+Notes is a collection of iOS note-taking applications demonstrating different architectural patterns. The repository includes implementations using Model-View-Controller (MVC), Model-View-ViewModel (MVVM), and Model-View-ViewModel-Coordinator (MVVM-C) to illustrate best practices and trade-offs in iOS development.
 
 ## Project Structure
 The repository is structured as follows:
@@ -12,6 +12,9 @@ Notes/
 │   ├── ...
 │── MVVM/
 │   ├── NotesAppMVVM.xcodeproj
+│   ├── ...
+│── MVVM-C/
+│   ├── NotesAppMVVMC.xcodeproj
 │   ├── ...
 ```
 
@@ -49,16 +52,32 @@ MVVM improves upon MVC by introducing a **ViewModel** to better manage data tran
 ❌ More complex than MVC, requiring additional boilerplate code.
 ❌ Can be overkill for simple applications.
 
+### Model-View-ViewModel-Coordinator (MVVM-C)
+#### Overview
+MVVM-C extends MVVM by adding a **Coordinator** to handle navigation and app flow, further improving separation of concerns:
+- **Model**: Manages the data and business logic.
+- **View**: Handles the user interface.
+- **ViewModel**: Prepares data for the View and processes user input.
+- **Coordinator**: Manages navigation between screens, reducing dependency on ViewControllers for navigation.
+
+#### Pros
+✅ Even better separation of concerns, making large projects more manageable.
+✅ Simplifies navigation logic by centralizing it in Coordinators.
+✅ Makes ViewModels more reusable and testable.
+
+#### Cons
+❌ Adds complexity due to the additional Coordinator layer.
+❌ Requires more boilerplate code to manage dependencies.
+
 ## Getting Started
 Clone the repository and open the desired project in Xcode:
 
 ```sh
 git clone https://github.com/wolfej94/Notes.git
-cd Notes/MVVM # or cd Notes/MVC
-open NotesAppMVVM.xcodeproj # or open NotesAppMVC.xcodeproj
+cd Notes/MVVM # or cd Notes/MVC or cd Notes/MVVM-C
+open NotesAppMVVM.xcodeproj # or open NotesAppMVC.xcodeproj or open NotesAppMVVMC.xcodeproj
 ```
 
 ## License
 Notes is released under the MIT license. See [LICENSE](LICENSE) for details.
-
 

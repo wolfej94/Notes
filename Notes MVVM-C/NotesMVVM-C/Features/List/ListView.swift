@@ -11,7 +11,7 @@ import NotesStorage
 
 struct ListView: View {
     
-    @StateObject var viewModel = ListViewModel()
+    @StateObject var viewModel: ListViewModel
     
     var body: some View {
         VStack(spacing: .zero) {
@@ -34,12 +34,8 @@ struct ListView: View {
                     Text("\(viewModel.noteCountLabelText)")
                         .foregroundStyle(Color.secondary)
                     Spacer()
-                    NavigationLink(
-                        destination: {
-                            let viewModel = CreateViewModel(notes: $viewModel.notes,
-                                                            notesCommandFactory: viewModel.notesCommandFactory)
-                            DetailView(viewModel: viewModel)
-                        },
+                    Button(
+                        action: viewModel.selectCreate,
                         label: {
                             Image(systemName: "square.and.pencil")
                         }
@@ -60,13 +56,16 @@ struct ListView: View {
     var notesListView: some View {
         List {
             ForEach(viewModel.filteredNotes()) { note in
-                NavigationLink(value: note) {
-                    NoteCell(title: note.title,
-                             body: note.body,
-                             textColor: .text,
-                             backgroundColor: .field
-                    )
-                }
+                Button(
+                    action: { viewModel.selectNote(note: note) },
+                    label: {
+                        NoteCell(title: note.title,
+                                 body: note.body,
+                                 textColor: .text,
+                                 backgroundColor: .field
+                        )
+                    }
+                )
                 .listRowBackground(Color.field)
                 .listRowInsets(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
             }
@@ -76,18 +75,16 @@ struct ListView: View {
         }
         .scrollContentBackground(.hidden)
         .listStyle(.insetGrouped)
-        .navigationDestination(for: NoteViewModel.self) { note in
-            let viewModel = UpdateViewModel(note: note,
-                                            notes: $viewModel.notes,
-                                            notesCommandFactory: viewModel.notesCommandFactory)
-            DetailView(viewModel: viewModel)
-        }
     }
 
 }
 
 #Preview {
     NavigationStack {
-        ListView()
+        ListView(
+            viewModel: .init(notesCommandFactory: DefaultNotesCommandFactory(),
+                             actionHandler: { _ in }
+                            )
+        )
     }
 }
