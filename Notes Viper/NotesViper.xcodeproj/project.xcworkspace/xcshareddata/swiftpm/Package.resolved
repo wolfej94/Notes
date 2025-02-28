@@ -1,5 +1,5 @@
 {
-  "originHash" : "5486b34ef46421c9610b6cff040235aca0e6aa3810e788e70a4989b75a6adc16",
+  "originHash" : "f2efc6d1636cd7d47a2a64427182c6a22421284281819a4f4c52112a79bbce2b",
   "pins" : [
     {
       "identity" : "notesstorage",
@@ -7,7 +7,7 @@
       "location" : "https://github.com/wolfej94/NotesStorage",
       "state" : {
         "branch" : "main",
-        "revision" : "8a9c2ef8bcaa3732c8e01e90ae741877dda6b0f2"
+        "revision" : "bba9a6dd38762518da40b57def0d66d0d8b573bc"
       }
     },
     {
@@ -16,7 +16,7 @@
       "location" : "https://github.com/wolfej94/NotesUI",
       "state" : {
         "branch" : "main",
-        "revision" : "420cf544e5d0a9ae24089330f159c7d0ae546efb"
+        "revision" : "3790021966a94e835286612499f631b782a1a182"
       }
     }
   ],

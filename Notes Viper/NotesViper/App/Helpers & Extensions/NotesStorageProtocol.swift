@@ -31,6 +31,10 @@ internal protocol NotesStorageProtocol: Sendable {
     ///   - notes: An array of `NoteViewModel` instances to delete.
     /// - Throws: An error if the deletion fails.
     func delete(_ notes: [NoteViewModel]) async throws
+    
+    /// Calls closure whenever an event is triggered.
+    /// - Parameter onEvent: Closure to call whenever an concurrency event occurs in storage
+    func subscribeToEvents(onEvent: @escaping @Sendable @MainActor (NoteViewModel) async -> Void) -> Task<Void, Never>
 
 }
 

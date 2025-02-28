@@ -9,14 +9,14 @@ import UIKit
 import NotesStorage
 
 protocol DetailRouterProtocol: AnyObject {
-    static func createModule(with note: NoteViewModel?, storageProvider: DetailStorageProvider?) -> UIViewController
+    static func createModule(with note: NoteViewModel?) -> UIViewController
 }
 
 final class DetailRouter: DetailRouterProtocol {
     
-    static func createModule(with note: NoteViewModel?, storageProvider: DetailStorageProvider?) -> UIViewController {
-        let view = DetailViewController()
-        let interactor = DetailInteractor(note: note, storageProvider: storageProvider)
+    static func createModule(with note: NoteViewModel?) -> UIViewController {
+        let view = DetailView()
+        let interactor = DetailInteractor(note: note)
         let router = DetailRouter()
         let presenter = DetailPresenter(view: view, interactor: interactor, router: router)
         

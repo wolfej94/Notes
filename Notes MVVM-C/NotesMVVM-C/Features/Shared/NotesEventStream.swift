@@ -6,7 +6,6 @@
 //
 
 import NotesStorage
-import Combine
 
 protocol NotesEventStream {
     func sendNoteUpdate(_ note: NoteViewModel)

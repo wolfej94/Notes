@@ -9,12 +9,13 @@ import UIKit
 import NotesStorage
 
 protocol DetailPresenterProtocol: AnyObject {
-    func viewDidLoad()
+    @MainActor func viewDidLoad()
     func viewWillDisappear(withText text: String?)
 }
 
 protocol DetailInteractorOutputProtocol: AnyObject {
-    func didFetchNoteContent(title: String, body: String)
+    @MainActor func didFetchNoteContent(title: String, body: String)
+    @MainActor func didFailToSave(_ error: Error)
 }
 
 final class DetailPresenter: DetailPresenterProtocol, DetailInteractorOutputProtocol {
@@ -34,11 +35,17 @@ final class DetailPresenter: DetailPresenterProtocol, DetailInteractorOutputProt
     }
     
     func viewWillDisappear(withText text: String?) {
-        interactor.saveNoteContent(text)
+        Task {
+            await interactor.saveNoteContent(text)
+        }
     }
     
     func didFetchNoteContent(title: String, body: String) {
         view?.displayNoteContent(title: title, body: body)
+    }
+    
+    func didFailToSave(_ error: any Error) {
+        view?.present(error: error)
     }
     
 }

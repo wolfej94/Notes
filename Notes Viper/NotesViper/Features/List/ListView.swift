@@ -1,5 +1,5 @@
 //
-//  ListViewController.swift
+//  ListView.swift
 //  NotesViper
 //
 //  Created by James Wolfe on 20/01/2025.
@@ -9,15 +9,12 @@ import NotesStorage
 import NotesUI
 
 protocol ListViewProtocol: UIViewController {
-    func reloadNotes()
-    func updateNoteCount(_ countText: String)
-    func present(error: Error)
-    func clearSearchText()
-    func toggleEditing()
-    func removeNote(at index: Int)
+    @MainActor func reload(isEditing: Bool)
+    @MainActor func updateNoteCount(_ countText: String)
+    @MainActor func present(error: Error)
 }
 
-final class ListViewController: UIViewController {
+final class ListView: UIViewController {
     
     // MARK: - Properties
     var presenter: ListPresenterProtocol!
@@ -54,23 +51,22 @@ final class ListViewController: UIViewController {
     }()
     
     private lazy var addButton: UIBarButtonItem = {
-        UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .done, target: self, action: #selector(addNoteTapped))
+        UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .done, target: self, action: #selector(addButtonTapped))
     }()
     
     private lazy var editButton: UIBarButtonItem = {
-        UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editNotesTapped))
+        UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
     }()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        presenter.viewDidLoad()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        presenter.loadNotes()
+        presenter.refreshNotes()
     }
     
     // MARK: - Setup
@@ -96,19 +92,22 @@ final class ListViewController: UIViewController {
     }
     
     // MARK: - Actions
-    @objc private func addNoteTapped() {
-        presenter.addNoteTapped()
+    @objc private func addButtonTapped() {
+        presenter.addButtonTapped()
+        searchField.cancelEditing()
     }
     
-    @objc private func editNotesTapped() {
-        presenter.toggleEditing()
+    @objc private func editButtonTapped() {
+        presenter.editButtonTapped()
     }
     
 }
 
-extension ListViewController: ListViewProtocol {
+extension ListView: ListViewProtocol {
     
-    func reloadNotes() {
+    func reload(isEditing: Bool) {
+        tableView.isEditing = isEditing
+        editButton.title = isEditing ? "Done" : "Edit"
         tableView.reloadSections([0], with: .automatic)
     }
     
@@ -116,22 +115,9 @@ extension ListViewController: ListViewProtocol {
         noteCountLabel.title = countText
     }
     
-    func clearSearchText() {
-        searchField.text = ""
-    }
-    
-    func toggleEditing() {
-        tableView.isEditing.toggle()
-        editButton.title = tableView.isEditing ? "Done" : "Edit"
-    }
-    
-    func removeNote(at index: Int) {
-        tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-    }
-    
 }
 
-extension ListViewController: UISearchFieldDelegate {
+extension ListView: UISearchFieldDelegate {
     
     func searchFieldEditingDidChange(_ searchText: String) {
         presenter.searchNotes(with: searchText)
@@ -139,14 +125,14 @@ extension ListViewController: UISearchFieldDelegate {
     
 }
 
-extension ListViewController: UITableViewDataSource {
+extension ListView: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.numberOfNotes()
+        return presenter.noteCount()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -164,10 +150,11 @@ extension ListViewController: UITableViewDataSource {
     
 }
 
-extension ListViewController: UITableViewDelegate {
+extension ListView: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.didSelectNote(at: indexPath.row)
+        presenter.noteTapped(at: indexPath.row)
+        searchField.cancelEditing()
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -176,7 +163,12 @@ extension ListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
-            self?.presenter.deleteNote(at: indexPath.row)
+            Task { [weak self] in
+                await self?.presenter.deleteNote(at: indexPath.row)
+                await MainActor.run {
+                    self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+            }
         }
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }

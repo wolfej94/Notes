@@ -9,51 +9,48 @@ import UIKit
 import NotesStorage
 
 protocol ListInteractorProtocol: AnyObject {
-    func fetchNotes() throws
-    func createNote(withText text: String) async throws -> NoteViewModel
-    func update(note: NoteViewModel, withText text: String) async throws
+    @MainActor func fetchNotes(query: String?) throws
     func delete(note: NoteViewModel) async throws
 }
 
 final class ListInteractor: ListInteractorProtocol {
     
+    private let commandFactory: NotesCommandFactory
     private let storage: NotesStorageProtocol
+    private var listenerTask: Task<Void, Never>?
     weak var presenter: ListPresenterProtocol?
     
-    init(storage: NotesStorageProtocol) {
+    init(commandFacotry: NotesCommandFactory = DefaultNotesCommandFactory(),
+         storage: NotesStorageProtocol = NotesStorage.shared) {
+        self.commandFactory = commandFacotry
         self.storage = storage
+        self.listenForNotesEvents()
     }
     
-    func fetchNotes() throws {
-        try presenter?.set(notes: storage.read())
+    deinit {
+        listenerTask?.cancel()
+    }
+    
+    func fetchNotes(query: String?) throws {
+        let notes = try commandFactory.readCommand().execute()
+        let filteredNotes = commandFactory.filterNotesCommand(query: query ?? "", notes: notes).execute()
+        presenter?.set(notes: filteredNotes)
     }
     
     func delete(note: NoteViewModel) async throws {
-        try await storage.delete([note])
+        try await commandFactory.deleteCommand(notes: [note]).execute()
     }
     
-    func createNote(withText text: String) async throws -> NoteViewModel {
-        let (title, body) = titleAndBody(ofText: text)
-        let note = NoteViewModel(id: UUID(), title: title, body: body)
-        try await storage.create(note)
-        return note
-    }
+}
+
+// MARK: - Helpers
+private extension ListInteractor {
     
-    func update(note: NoteViewModel, withText text: String) async throws {
-        let (title, body) = titleAndBody(ofText: text)
-        var note = note
-        note.title = title
-        note.body = body
-        try await storage.update(note)
-    }
-    
-    private func titleAndBody(ofText text: String) -> (title: String, body: String) {
-        let titleAndBody = text.split(separator: "\n", maxSplits: 1)
-        let title = String(titleAndBody.first ?? "")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        let body = String(titleAndBody.last ?? "")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        return (title: title, body: body)
+    func listenForNotesEvents() {
+        listenerTask = storage.subscribeToEvents(onEvent: { [weak self] note in
+            guard let self = self else { return }
+            self.presenter?.refreshNotes()
+        })
     }
     
 }

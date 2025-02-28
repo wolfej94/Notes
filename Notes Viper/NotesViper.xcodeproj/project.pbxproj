@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		687BB8E02D5C431600AE21C9 /* NotesStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 687BB8DF2D5C431600AE21C9 /* NotesStorage */; };
-		687BB8E32D5C432300AE21C9 /* NotesUI in Frameworks */ = {isa = PBXBuildFile; productRef = 687BB8E22D5C432300AE21C9 /* NotesUI */; };
+		684A87122D7216CB00502726 /* NotesStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 684A87112D7216CB00502726 /* NotesStorage */; };
+		684A87152D72296D00502726 /* NotesUI in Frameworks */ = {isa = PBXBuildFile; productRef = 684A87142D72296D00502726 /* NotesUI */; };
+		684A87182D72298000502726 /* NotesUI in Frameworks */ = {isa = PBXBuildFile; productRef = 684A87172D72298000502726 /* NotesUI */; };
+		684A871B2D72299600502726 /* NotesStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 684A871A2D72299600502726 /* NotesStorage */; };
+		68C0A1072D6F92D400C4B33B /* NotesUI in Frameworks */ = {isa = PBXBuildFile; productRef = 68C0A1062D6F92D400C4B33B /* NotesUI */; };
 		68D904EE2D5A606400EB6469 /* NotesUI in Frameworks */ = {isa = PBXBuildFile; productRef = 68D904ED2D5A606400EB6469 /* NotesUI */; };
 		68D904F12D5A609800EB6469 /* NotesUI in Frameworks */ = {isa = PBXBuildFile; productRef = 68D904F02D5A609800EB6469 /* NotesUI */; };
 /* End PBXBuildFile section */
@@ -67,10 +70,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				684A87182D72298000502726 /* NotesUI in Frameworks */,
 				68D904F12D5A609800EB6469 /* NotesUI in Frameworks */,
-				687BB8E02D5C431600AE21C9 /* NotesStorage in Frameworks */,
-				687BB8E32D5C432300AE21C9 /* NotesUI in Frameworks */,
+				68C0A1072D6F92D400C4B33B /* NotesUI in Frameworks */,
+				684A87122D7216CB00502726 /* NotesStorage in Frameworks */,
 				68D904EE2D5A606400EB6469 /* NotesUI in Frameworks */,
+				684A87152D72296D00502726 /* NotesUI in Frameworks */,
+				684A871B2D72299600502726 /* NotesStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,8 +147,11 @@
 			packageProductDependencies = (
 				68D904ED2D5A606400EB6469 /* NotesUI */,
 				68D904F02D5A609800EB6469 /* NotesUI */,
-				687BB8DF2D5C431600AE21C9 /* NotesStorage */,
-				687BB8E22D5C432300AE21C9 /* NotesUI */,
+				68C0A1062D6F92D400C4B33B /* NotesUI */,
+				684A87112D7216CB00502726 /* NotesStorage */,
+				684A87142D72296D00502726 /* NotesUI */,
+				684A87172D72298000502726 /* NotesUI */,
+				684A871A2D72299600502726 /* NotesStorage */,
 			);
 			productName = NotesMVC;
 			productReference = 68925C052D3E7FE200877B55 /* NotesViper.app */;
@@ -177,8 +186,8 @@
 			mainGroup = 68925BFC2D3E7FE200877B55;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				687BB8DE2D5C431600AE21C9 /* XCRemoteSwiftPackageReference "NotesStorage" */,
-				687BB8E12D5C432300AE21C9 /* XCRemoteSwiftPackageReference "NotesUI" */,
+				684A87162D72298000502726 /* XCRemoteSwiftPackageReference "NotesUI" */,
+				684A87192D72299600502726 /* XCRemoteSwiftPackageReference "NotesStorage" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 68925C062D3E7FE200877B55 /* Products */;
@@ -494,17 +503,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		687BB8DE2D5C431600AE21C9 /* XCRemoteSwiftPackageReference "NotesStorage" */ = {
+		684A87162D72298000502726 /* XCRemoteSwiftPackageReference "NotesUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/wolfej94/NotesStorage";
+			repositoryURL = "https://github.com/wolfej94/NotesUI";
 			requirement = {
 				branch = main;
 				kind = branch;
 			};
 		};
-		687BB8E12D5C432300AE21C9 /* XCRemoteSwiftPackageReference "NotesUI" */ = {
+		684A87192D72299600502726 /* XCRemoteSwiftPackageReference "NotesStorage" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/wolfej94/NotesUI";
+			repositoryURL = "https://github.com/wolfej94/NotesStorage";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -513,14 +522,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		687BB8DF2D5C431600AE21C9 /* NotesStorage */ = {
+		684A87112D7216CB00502726 /* NotesStorage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 687BB8DE2D5C431600AE21C9 /* XCRemoteSwiftPackageReference "NotesStorage" */;
 			productName = NotesStorage;
 		};
-		687BB8E22D5C432300AE21C9 /* NotesUI */ = {
+		684A87142D72296D00502726 /* NotesUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 687BB8E12D5C432300AE21C9 /* XCRemoteSwiftPackageReference "NotesUI" */;
+			productName = NotesUI;
+		};
+		684A87172D72298000502726 /* NotesUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 684A87162D72298000502726 /* XCRemoteSwiftPackageReference "NotesUI" */;
+			productName = NotesUI;
+		};
+		684A871A2D72299600502726 /* NotesStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 684A87192D72299600502726 /* XCRemoteSwiftPackageReference "NotesStorage" */;
+			productName = NotesStorage;
+		};
+		68C0A1062D6F92D400C4B33B /* NotesUI */ = {
+			isa = XCSwiftPackageProductDependency;
 			productName = NotesUI;
 		};
 		68D904ED2D5A606400EB6469 /* NotesUI */ = {

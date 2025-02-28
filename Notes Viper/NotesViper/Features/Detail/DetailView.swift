@@ -10,10 +10,11 @@ import NotesStorage
 import NotesUI
 
 protocol DetailViewProtocol: AnyObject {
-    func displayNoteContent(title: String, body: String)
+    @MainActor func displayNoteContent(title: String, body: String)
+    @MainActor func present(error: Error)
 }
 
-final class DetailViewController: UIViewController {
+final class DetailView: UIViewController {
     
     // MARK: - UI Elements
     lazy var editorField: UINoteEditor = {
